@@ -7,6 +7,6 @@
     "@types/bun": "^1.3.3"
   },
   "scripts": {
-    "claude-ui-skill": "bun run skills/claude-ui/src/run-claude-ui.ts"
+    "claude-ui-skill": "bun run .agents/skills/claude-ui/src/run-claude-ui.ts"
   }
 }

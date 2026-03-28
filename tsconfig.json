@@ -19,5 +19,5 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["skills/**/*.ts"]
+  "include": [".agents/**/*.ts"]
 }
