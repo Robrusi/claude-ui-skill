@@ -4,6 +4,14 @@ type CommandResult = {
   stderr: string;
 };
 
+type Effort = "low" | "medium" | "high" | "max";
+
+type Options = {
+  effort: Effort;
+  model: string;
+  userRequest: string;
+};
+
 function runCapture(command: string, args: string[], cwd = process.cwd()): CommandResult {
   const result = Bun.spawnSync([command, ...args], {
     cwd,
@@ -44,11 +52,62 @@ function isLoggedInAuthStatus(output: string): boolean {
   }
 }
 
-const userRequest = process.argv.slice(2).join(" ").trim();
+function parseArgs(argv: string[]): Options {
+  let model: string | undefined;
+  let effort: Effort | undefined;
+  const requestParts: string[] = [];
 
-if (!userRequest) {
-  fail("Missing user request.");
+  for (let index = 0; index < argv.length; index++) {
+    const arg = argv[index];
+
+    if (arg === "--model") {
+      model = argv[index + 1];
+      index++;
+      continue;
+    }
+
+    if (arg === "--effort") {
+      const value = argv[index + 1];
+      index++;
+
+      if (value === "low" || value === "medium" || value === "high" || value === "max") {
+        effort = value;
+        continue;
+      }
+
+      fail("Invalid --effort value. Use one of: low, medium, high, max.");
+    }
+
+    if (arg === "--") {
+      requestParts.push(...argv.slice(index + 1));
+      break;
+    }
+
+    requestParts.push(arg);
+  }
+
+  if (!model) {
+    fail("Missing --model. Example: --model opus");
+  }
+
+  if (!effort) {
+    fail("Missing --effort. Use one of: low, medium, high, max.");
+  }
+
+  const userRequest = requestParts.join(" ").trim();
+
+  if (!userRequest) {
+    fail("Missing user request.");
+  }
+
+  return {
+    effort,
+    model,
+    userRequest,
+  };
 }
+
+const { effort, model, userRequest } = parseArgs(process.argv.slice(2));
 
 const gitCheck = runCapture("git", ["rev-parse", "--show-toplevel"]);
 if (gitCheck.status !== 0) {
@@ -96,6 +155,10 @@ const prompt = [
 const claudeArgs = [
   "--print",
   prompt,
+  "--model",
+  model,
+  "--effort",
+  effort,
   "--allowedTools",
   "Bash,Read,Edit,Write,MultiEdit,Glob,Grep,LS",
   "--permission-mode",
@@ -104,6 +167,8 @@ const claudeArgs = [
 ];
 
 console.log("Running Claude Code in:", repoRoot);
+console.log("Model:", model);
+console.log("Effort:", effort);
 console.log("Delegated request:", userRequest);
 console.log("");
 

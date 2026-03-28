@@ -1,4 +1,4 @@
-# claude-skill
+# claude-ui-skill
 
 A Bun-based Codex skill that delegates UI work to Claude Code.
 

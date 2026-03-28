@@ -1,7 +1,7 @@
 interface:
   display_name: "Claude UI"
   short_description: "Delegate UI edits to Claude Code."
-  default_prompt: "Use $claude-ui to implement a focused UI change directly in this checkout."
+  default_prompt: "Use $claude-ui after asking me to choose a Claude model and effort for the UI change."
 
 policy:
   allow_implicit_invocation: true
