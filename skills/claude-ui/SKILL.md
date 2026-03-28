@@ -11,14 +11,14 @@ When this skill is used:
 4. Do not ask for model or effort in plain text if the structured tool is available.
 5. If the structured tool is unavailable, ask the user directly in plain text and do not proceed until both values are provided.
 6. Do not add extra repository context unless it is necessary. Claude Code can inspect the repository itself.
-6. Run the bundled helper script from this project-local skill, outside the Codex sandbox, so Claude Code can use the user's existing local auth:
+7. Run the bundled helper script outside the Codex sandbox so Claude Code can use the user's existing local auth:
    - `bun run .agents/skills/claude-ui/src/run-claude-ui.ts --model "<model>" --effort "<effort>" -- "<user request>"`
-7. Wait for Claude Code to finish.
-8. Inspect the resulting changes with:
+8. Wait for Claude Code to finish.
+9. Inspect the resulting changes with:
    - `git status --short`
    - `git diff --stat`
-9. Summarize what changed.
-10. If no files changed, say so clearly.
+10. Summarize what changed.
+11. If no files changed, say so clearly.
 
 Rules:
 
