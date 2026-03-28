@@ -26,7 +26,7 @@ Rules:
 - Run the helper command with escalated permissions so it can access the user's normal Claude CLI login context.
 - The skill must not run until both `--model` and `--effort` have been explicitly selected.
 - Prefer the harness selection/input tool over plain-text questioning whenever that tool is available.
-- Check what the allowed models and effort is before asking.
+- Check what models and effort values are available before asking, rather than relying on a hard-coded list in this skill.
 - Use Bun, not npm, if you need to run package scripts or install dependencies.
 - Do not try to convert Claude output into a fake Codex event format.
 - Prefer direct in-place file edits so the Codex app can show the Git diff naturally.

@@ -4,10 +4,8 @@ type CommandResult = {
   stderr: string;
 };
 
-type Effort = "low" | "medium" | "high" | "max";
-
 type Options = {
-  effort: Effort;
+  effort: string;
   model: string;
   userRequest: string;
 };
@@ -54,7 +52,7 @@ function isLoggedInAuthStatus(output: string): boolean {
 
 function parseArgs(argv: string[]): Options {
   let model: string | undefined;
-  let effort: Effort | undefined;
+  let effort: string | undefined;
   const requestParts: string[] = [];
 
   for (let index = 0; index < argv.length; index++) {
@@ -69,13 +67,8 @@ function parseArgs(argv: string[]): Options {
     if (arg === "--effort") {
       const value = argv[index + 1];
       index++;
-
-      if (value === "low" || value === "medium" || value === "high" || value === "max") {
-        effort = value;
-        continue;
-      }
-
-      fail("Invalid --effort value. Use one of: low, medium, high, max.");
+      effort = value;
+      continue;
     }
 
     if (arg === "--") {
@@ -91,7 +84,7 @@ function parseArgs(argv: string[]): Options {
   }
 
   if (!effort) {
-    fail("Missing --effort. Use one of: low, medium, high, max.");
+    fail("Missing --effort.");
   }
 
   const userRequest = requestParts.join(" ").trim();
