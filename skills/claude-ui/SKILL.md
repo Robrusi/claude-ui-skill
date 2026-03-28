@@ -6,7 +6,7 @@ description: Use when the user asks to fix, refine, or build UI in the current p
 When this skill is used:
 
 1. Treat the user's exact request as the UI task to delegate.
-2. Require the user to explicitly choose both a Claude model and a reasoning effort before running anything.
+2. Require the user to explicitly choose both a Claude model and a reasoning effort before running anything. Use your tools to get the arguments. Do not just ask
 3. Use the invoking agent's user-input or selection tool to collect those choices when such a tool exists. If no such tool exists, ask the user directly. Do not silently choose defaults.
 4. Do not add extra repository context unless it is necessary. Claude Code can inspect the repository itself.
 5. Run the bundled helper script from this installed skill, outside the Codex sandbox, so Claude Code can use the user's existing local auth:
