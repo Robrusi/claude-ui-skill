@@ -8,7 +8,7 @@ When this skill is used:
 1. Treat the user's exact request as the UI task to delegate.
 2. Require the user to explicitly choose both a Claude model and a reasoning effort before running anything.
 3. Use the invoking agent's structured user-input or selection tool to collect those choices when that tool exists in the current harness or mode.
-4. Do not ask for model or effort in plain text if the structured tool is available.
+4. Do not ask for model or effort in plain text if the structured tool is available. USE YOUR USER INPUT TOOL TO ASK FOR THE MODEL AND EFFORT!
 5. If the structured tool is unavailable, ask the user directly in plain text and do not proceed until both values are provided.
 6. Do not add extra repository context unless it is necessary. Claude Code can inspect the repository itself.
 7. Run the bundled helper script outside the Codex sandbox so Claude Code can use the user's existing local auth:
