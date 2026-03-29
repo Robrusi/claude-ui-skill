@@ -137,7 +137,6 @@ const prompt = [
   "You are working inside the current repository checkout.",
   "Inspect the repository yourself before making changes.",
   "Apply the requested UI change directly to files in this working tree.",
-  "If you need to run package scripts or install dependencies, use Bun rather than npm.",
   "Keep the scope minimal and focused on the user's request.",
   "Do not return patches for someone else to apply unless you cannot edit files directly.",
   "",
