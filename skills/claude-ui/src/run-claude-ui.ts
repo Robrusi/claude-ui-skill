@@ -49,6 +49,17 @@ function fail(message: string): never {
   process.exit(1);
 }
 
+function requireValue(
+  value: string | undefined,
+  message: string,
+): string {
+  if (!value) {
+    fail(message);
+  }
+
+  return value;
+}
+
 function isLoggedInAuthStatus(output: string): boolean {
   try {
     const parsed = JSON.parse(output) as { loggedIn?: boolean };
@@ -65,26 +76,16 @@ function parseArgs(argv: string[]): Options {
 
   for (let index = 0; index < argv.length; index++) {
     const arg = argv[index];
-
-    if (arg === undefined) {
-      continue;
-    }
+    if (arg === undefined) continue;
 
     if (arg === "--model") {
-      const value = argv[index + 1];
-      if (!value) {
-        fail("Missing value for --model.");
-      }
-      model = value;
+      model = requireValue(argv[index + 1], "Missing value for --model.");
       index++;
       continue;
     }
 
     if (arg === "--effort") {
-      const value = argv[index + 1];
-      if (!value) {
-        fail("Missing value for --effort.");
-      }
+      const value = requireValue(argv[index + 1], "Missing value for --effort.");
       index++;
       effort = value;
       continue;
@@ -98,14 +99,6 @@ function parseArgs(argv: string[]): Options {
     requestParts.push(arg);
   }
 
-  if (!model) {
-    fail("Missing --model. Example: --model opus");
-  }
-
-  if (!effort) {
-    fail("Missing --effort.");
-  }
-
   const userRequest = requestParts.join(" ").trim();
 
   if (!userRequest) {
@@ -113,8 +106,8 @@ function parseArgs(argv: string[]): Options {
   }
 
   return {
-    effort,
-    model,
+    effort: requireValue(effort, "Missing --effort."),
+    model: requireValue(model, "Missing --model. Example: --model opus"),
     userRequest,
   };
 }
