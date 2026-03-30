@@ -1,4 +1,4 @@
-# claude-ui-skill
+# Claude-ui-skill
 
 A Bun-based skill that delegates UI work to Claude Code.
 

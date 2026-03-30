@@ -10,7 +10,11 @@ type Options = {
   userRequest: string;
 };
 
-function runCapture(command: string, args: string[], cwd = process.cwd()): CommandResult {
+function runCapture(
+  command: string,
+  args: string[],
+  cwd = process.cwd(),
+): CommandResult {
   const result = Bun.spawnSync([command, ...args], {
     cwd,
     env: process.env,
@@ -25,7 +29,11 @@ function runCapture(command: string, args: string[], cwd = process.cwd()): Comma
   };
 }
 
-function runPassthrough(command: string, args: string[], cwd = process.cwd()): number {
+function runPassthrough(
+  command: string,
+  args: string[],
+  cwd = process.cwd(),
+): number {
   const result = Bun.spawnSync([command, ...args], {
     cwd,
     env: process.env,
@@ -58,14 +66,25 @@ function parseArgs(argv: string[]): Options {
   for (let index = 0; index < argv.length; index++) {
     const arg = argv[index];
 
+    if (arg === undefined) {
+      continue;
+    }
+
     if (arg === "--model") {
-      model = argv[index + 1];
+      const value = argv[index + 1];
+      if (!value) {
+        fail("Missing value for --model.");
+      }
+      model = value;
       index++;
       continue;
     }
 
     if (arg === "--effort") {
       const value = argv[index + 1];
+      if (!value) {
+        fail("Missing value for --effort.");
+      }
       index++;
       effort = value;
       continue;
@@ -105,7 +124,7 @@ const { effort, model, userRequest } = parseArgs(process.argv.slice(2));
 const gitCheck = runCapture("git", ["rev-parse", "--show-toplevel"]);
 if (gitCheck.status !== 0) {
   fail(
-    "This skill must run inside the current Git checkout so Codex can show the diff."
+    "This skill must run inside the current Git checkout so Codex can show the diff.",
   );
 }
 
@@ -118,7 +137,7 @@ if (!repoRoot) {
 const claudeVersion = runCapture("claude", ["--version"], repoRoot);
 if (claudeVersion.status !== 0) {
   fail(
-    "Claude Code CLI is not available. Install it and make sure `claude` is on PATH."
+    "Claude Code CLI is not available. Install it and make sure `claude` is on PATH.",
   );
 }
 
@@ -129,7 +148,7 @@ if (claudeAuth.status !== 0 || !isLoggedInAuthStatus(claudeAuth.stdout)) {
       "Claude Code CLI auth is not available in this execution context.",
       "If `claude` works in your normal terminal, rerun this Bun command outside the Codex sandbox so it can use your existing local Claude login.",
       "Otherwise run `claude auth login` first.",
-    ].join(" ")
+    ].join(" "),
   );
 }
 
@@ -170,12 +189,16 @@ if (claudeExitCode !== 0) {
   process.exit(claudeExitCode);
 }
 
-const trackedChangedFiles = runCapture("git", ["diff", "--name-only", "--"], repoRoot);
+const trackedChangedFiles = runCapture(
+  "git",
+  ["diff", "--name-only", "--"],
+  repoRoot,
+);
 const diffStat = runCapture("git", ["diff", "--stat", "--"], repoRoot);
 const untrackedFiles = runCapture(
   "git",
   ["ls-files", "--others", "--exclude-standard"],
-  repoRoot
+  repoRoot,
 );
 const status = runCapture("git", ["status", "--short"], repoRoot);
 

@@ -27,6 +27,7 @@ Rules:
 - The skill must not run until both `--model` and `--effort` have been explicitly selected.
 - Prefer the harness selection/input tool over plain-text questioning whenever that tool is available.
 - Check what models and effort values are available before asking, rather than relying on a hard-coded list in this skill.
+- Once the helper script starts, do not interrupt until claude has finished
 - Do not try to convert Claude output into a fake Codex event format.
 - Prefer direct in-place file edits so the Codex app can show the Git diff naturally.
 - Keep the change minimal and focused on the user's request.
