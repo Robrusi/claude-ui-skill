@@ -49,10 +49,7 @@ function fail(message: string): never {
   process.exit(1);
 }
 
-function requireValue(
-  value: string | undefined,
-  message: string,
-): string {
+function requireValue(value: string | undefined, message: string): string {
   if (!value) {
     fail(message);
   }
@@ -85,7 +82,10 @@ function parseArgs(argv: string[]): Options {
     }
 
     if (arg === "--effort") {
-      const value = requireValue(argv[index + 1], "Missing value for --effort.");
+      const value = requireValue(
+        argv[index + 1],
+        "Missing value for --effort.",
+      );
       index++;
       effort = value;
       continue;
