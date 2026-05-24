@@ -10,7 +10,7 @@
 - runs Claude Code against the current working tree
 - prints a short git summary after Claude finishes
 
-This is mainly useful when you want Codex to stay as the orchestrator, but you want Claude Code to implement the actual UI change in-place.
+This is mainly useful when you want to continue the thread in Codex, but you want Claude Code to implement the actual UI change in-place.
 
 ## Repository Layout
 
