@@ -170,7 +170,7 @@ const claudeArgs = [
   "--no-session-persistence",
 ];
 
-console.log("Running Claude Code in:", repoRoot);
+console.log("Running Claude Code in repo:", repoRoot);
 console.log("Model:", model);
 console.log("Effort:", effort);
 console.log("Delegated request:", userRequest);

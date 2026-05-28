@@ -27,7 +27,7 @@ This is mainly useful when you want to continue the thread in Codex, but you wan
 
 If any of those checks fail, the helper exits early with a clear error message.
 
-##  Notes
+## Notes
 
 - The helper runs Claude with a limited allowed tool set and `acceptEdits` permission mode.
 - After completion, it prints `git status --short`, changed files, untracked files, and `git diff --stat`.
